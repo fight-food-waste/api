@@ -4,7 +4,7 @@
   "description": "The Fight Food Waste API",
   "scripts": {
     "start": "node ./bin/www",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./tests/run_tests.sh"
   },
   "repository": {
     "type": "git",
@@ -28,9 +28,13 @@
     "sequelize": "^5.2.6"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
     "eslint": "^5.15.3",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.16.0",
-    "sequelize-cli": "^5.4.0"
+    "mocha": "^6.0.2",
+    "nodemon": "^1.18.10",
+    "sequelize-cli": "^5.4.0",
+    "supertest": "^4.0.2"
   }
 }
