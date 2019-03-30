@@ -1,10 +1,19 @@
 # docker-compose stack for development
-# todo: nodejs container
+# if first run: docker-compose exec nodejs sh -c "cd /app && npm i"
 ---
 
 version: "3"
 
 services:
+  # nodejs:
+  #   image: node:11
+  #   volumes:
+  #     - './:/app'
+  #   ports:
+  #     - 127.0.0.1:3000:3000
+  #   command: sh -c "cd /app && npx nodemon npm start"
+  #   environment:
+  #     - DB_HOST=mysql
   mysql:
     image: mariadb:10
     environment:
