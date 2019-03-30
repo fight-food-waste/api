@@ -2,8 +2,8 @@
   "name": "ffw-api",
   "version": "0.1.0",
   "description": "The Fight Food Waste API",
-  "main": "index.js",
   "scripts": {
+    "start": "node ./bin/www",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -20,12 +20,10 @@
     "node": ">= 11.13.0"
   },
   "dependencies": {
-    "boom": "^7.3.0",
-    "good": "^8.1.2",
-    "good-console": "^8.0.0",
-    "good-squeeze": "^5.1.0",
-    "hapi": "^18.1.0",
-    "joi": "^14.3.1",
+    "debug": "^4.1.1",
+    "express": "^4.16.4",
+    "http-errors": "^1.7.2",
+    "morgan": "^1.9.1",
     "mysql2": "^1.6.5",
     "sequelize": "^5.2.6"
   },

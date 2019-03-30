@@ -1,4 +1,5 @@
 # docker-compose stack for development
+# todo: nodejs container
 ---
 
 version: "3"

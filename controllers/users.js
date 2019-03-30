@@ -1,13 +1,12 @@
-const Boom = require('boom');
 const { User } = require('../models');
 
 module.exports = {
-    create(request, h) {
+    create(req, res) {
         return User
             .create({
-                username: request.payload.username,
+                username: req.body.username,
             })
-            .then(user => h.response(user).code(201))
-            .catch((error) => { throw Boom.badRequest(error); });
+            .then(user => res.status(201).send(user))
+            .catch(error => res.status(400).send(error));
     },
 };
