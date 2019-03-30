@@ -16,4 +16,4 @@ npx sequelize db:migrate
 npx sequelize db:seed:all
 
 # Run tests
-npx mocha tests/ --exit
+npx nyc mocha tests/ --exit
