@@ -12,7 +12,7 @@ module.exports = {
     findAll(req, res) {
         return User
             .findAll()
-            .then(users => res.status(201).send(users))
+            .then(users => res.status(200).send(users))
             .catch(error => res.status(400).send(error));
     },
 };
