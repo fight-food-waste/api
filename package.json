@@ -4,7 +4,8 @@
   "description": "The Fight Food Waste API",
   "scripts": {
     "start": "node ./bin/www",
-    "test": "./tests/run_tests.sh"
+    "test": "./tests/run_tests.sh",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",

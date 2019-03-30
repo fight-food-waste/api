@@ -9,7 +9,9 @@ const usersRouter = require('./routes/users');
 const app = express();
 
 // load middlewares
-app.use(logger('dev'));
+if (process.env.NODE_LOG !== 'false') {
+    app.use(logger('dev'));
+}
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
