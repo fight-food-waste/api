@@ -18,7 +18,7 @@
   },
   "homepage": "https://gitlab.com/fight-food-waste/ffw-api",
   "engines": {
-    "node": ">= 11.13.0"
+    "node": ">= 8"
   },
   "dependencies": {
     "debug": "^4.1.1",

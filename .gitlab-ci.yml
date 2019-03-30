@@ -1,5 +1,4 @@
-image: node:11
-
+# MySQL service
 services:
 - mariadb:10.3
 
@@ -7,26 +6,68 @@ variables:
   MYSQL_DATABASE: ffw
   MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
 
+# Cache between stages
 cache:
   paths:
   - node_modules/
 
+# Stages
 stages:
   - install
   - lint
   - test
 
-npm install:
+# Define anchors
+.npm install: &npm_install
   stage: install
   script:
    - npm install
 
-npm test:
+.npm test: &npm_test
   stage: test
   script:
    - npm test
 
-npm lint:
+.npm lint: &npm_lint
   stage: lint
   script:
    - npm run lint
+
+# Jobs for Node.js 8
+install:8:
+  image: node:8
+  <<: *npm_install
+
+test:8:
+  image: node:8
+  <<: *npm_test
+
+lint:8:
+  image: node:8
+  <<: *npm_lint
+
+# Jobs for Node.js 10
+install:10:
+  image: node:10
+  <<: *npm_install
+
+test:10:
+  image: node:10
+  <<: *npm_test
+
+lint:10:
+  image: node:10
+  <<: *npm_lint
+
+# Jobs for Node.js 11
+install:11:
+  image: node:11
+  <<: *npm_install
+
+test:11:
+  image: node:11
+  <<: *npm_test
+
+lint:11:
+  image: node:11
+  <<: *npm_lint
