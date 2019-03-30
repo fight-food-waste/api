@@ -1,0 +1,22 @@
+# docker-compose stack for development
+---
+
+version: "3"
+
+services:
+  mysql:
+    image: mariadb:10
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    volumes:
+      - './docker/volumes/mysql:/var/lib/mysql'
+    ports:
+      - 127.0.0.1:3306:3306
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+    - 127.0.0.1:3001:80
+    environment:
+     - PMA_ARBITRARY=1
+    volumes:
+      - './docker/volumes/pma-sessions:/sessions'
