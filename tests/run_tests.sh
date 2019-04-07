@@ -1,19 +1,20 @@
 #!/usr/bin/env bash
 
-# In order to the load the correct ../config/config.json
+echo "=> Setting up env variables..."
+export NODE_ENV=test
+export DB_NAME=${DB_NAME:-'ffw_test'}
+export DB_USER=${DB_USER:-'root'}
+
 if [[ "$GITLAB_CI" = true ]];then
-    export NODE_ENV=gitlab-ci
+    export DB_HOST=mariadb
 else
-    export NODE_ENV=test
+    export DB_HOST=${DB_HOST:-'127.0.0.1'}
 fi
 
-# Disable express logs to not bloat Mocha output
-export NODE_LOG=false
+echo "=> Init tables..."
+mysql -h ${DB_HOST} -u ${DB_USER} ${DB_NAME} < sql/schema.sql
+echo "=> Seed tables..."
+mysql -h ${DB_HOST} -u ${DB_USER} ${DB_NAME} < sql/seed.sql
 
-# Init and see the database
-npx sequelize db:migrate:undo
-npx sequelize db:migrate
-npx sequelize db:seed:all
-
-# Run tests
-npx nyc mocha tests/ --exit
+echo "=> Run tests..."
+npx nyc mocha tests/*.test.js --exit
