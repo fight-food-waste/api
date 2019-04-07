@@ -22,7 +22,7 @@ app.use('/donor', donorRouter);
 
 // else: catch 404
 app.use((req, res) => {
-    res.sendStatus(404);
+  res.sendStatus(404);
 });
 
 module.exports = app;
