@@ -15,10 +15,10 @@ describe('GET /donor/1', () => {
     });
     it('the id of the user should be 1', async () => {
         const response = await request(app).get('/donor/1');
-        assert.strictEqual(JSON.parse(response.text).id, 1)
+        assert.strictEqual(JSON.parse(response.text).id, 1);
     });
     it('the first name of the user should be John', async () => {
         const response = await request(app).get('/donor/1');
-        assert.strictEqual(JSON.parse(response.text).first_name, 'John')
+        assert.strictEqual(JSON.parse(response.text).first_name, 'John');
     });
 });
