@@ -1,38 +1,28 @@
-const createError = require('http-errors');
 const express = require('express');
-const logger = require('morgan');
+const morgan = require('morgan');
+const bodyParser = require('body-parser');
 
 // import routes
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
+const donorRouter = require('./routes/donor');
 
+// init express
 const app = express();
 
 // load middlewares
-if (process.env.NODE_LOG !== 'false') {
-    app.use(logger('dev'));
-}
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+// logging
+const logFormat = process.env.NODE_ENV === 'production' ? 'combined' : 'dev';
+app.use(morgan(logFormat));
+// parsing of POST requests
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // load routes
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/donor', donorRouter);
 
-// catch 404 and forward to error handler
-app.use((req, res, next) => {
-    next(createError(404));
-});
-
-// error handler
-app.use((err, req, res) => {
-    // set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-    // render the error page
-    res.status(err.status || 500);
-    res.render('error');
+// else: catch 404
+app.use((req, res) => {
+    res.sendStatus(404);
 });
 
 module.exports = app;
