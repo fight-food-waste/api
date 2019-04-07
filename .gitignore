@@ -5,3 +5,6 @@ docker/volumes/
 
 # nyc reports (cove coverage)
 .nyc_output/
+
+# dotenv
+.env
