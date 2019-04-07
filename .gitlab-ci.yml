@@ -3,7 +3,7 @@ services:
 - mariadb:10.3
 
 variables:
-  MYSQL_DATABASE: ffw
+  MYSQL_DATABASE: ffw_test
   MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
 
 # Cache between stages
@@ -25,6 +25,9 @@ stages:
 
 .npm test: &npm_test
   stage: test
+  before_script:
+    - apt-get update
+    - apt-get install -y mysql-client
   script:
    - npm test
 
