@@ -11,10 +11,11 @@ else
     export DB_HOST=${DB_HOST:-'127.0.0.1'}
 fi
 
-echo "=> Init tables..."
-mysql -h ${DB_HOST} -u ${DB_USER} ${DB_NAME} < sql/schema.sql
+echo "=> Run migrations..."
+npx knex migrate:rollback
+npx knex migrate:latest
 echo "=> Seed tables..."
-mysql -h ${DB_HOST} -u ${DB_USER} ${DB_NAME} < sql/seed.sql
+npx knex seed:run
 
 echo "=> Run tests..."
 npx nyc mocha tests/*.test.js --exit
