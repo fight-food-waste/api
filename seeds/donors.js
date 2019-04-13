@@ -1,3 +1,5 @@
+/* eslint-disable implicit-arrow-linebreak */
+/* eslint-disable no-unused-vars */
 exports.seed = (knex, Promise) =>
   // Deletes ALL existing entries
   knex('donors').del()
