@@ -19,7 +19,7 @@
   },
   "homepage": "https://gitlab.com/fight-food-waste/ffw-api",
   "engines": {
-    "node": ">= 8"
+    "node": ">= 11"
   },
   "dependencies": {
     "bcrypt": "^3.0.5",
