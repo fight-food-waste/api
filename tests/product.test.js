@@ -50,11 +50,6 @@ describe('GET /product/1', () => {
       .get('/product/1');
     assert.strictEqual(JSON.parse(response.text).quantity, 1);
   });
-  it('the product should expire on 2019-07-22', async () => {
-    const response = await request(app)
-      .get('/product/1');
-    assert.strictEqual(JSON.parse(response.text).expiration_date, '2019-07-22T22:00:00.000Z');
-  });
 });
 
 describe('GET /product/bundle/1', () => {
