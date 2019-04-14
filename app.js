@@ -7,6 +7,7 @@ const indexRouter = require('./routes/index');
 const donorRouter = require('./routes/donor');
 const bundleRouter = require('./routes/bundle');
 const authRouter = require('./routes/auth');
+const productRouter = require('./routes/product');
 
 // init express
 const app = express();
@@ -26,6 +27,7 @@ app.use('/', indexRouter);
 app.use('/donor', donorRouter);
 app.use('/bundle', bundleRouter);
 app.use('/auth', authRouter);
+app.use('/product', productRouter);
 
 // else: catch 404
 app.use((req, res) => {

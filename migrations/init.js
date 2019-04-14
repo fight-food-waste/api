@@ -27,7 +27,7 @@ exports.up = (knex, Promise) => Promise.all([
     // table.integer('distribution_round_id');
     // table.integer('collection_round_id');
   }),
-  knex.schema.createTable('product_scanned', (table) => {
+  knex.schema.createTable('products_scanned', (table) => {
     table.increments('id')
       .primary();
     table.json('details');
@@ -41,7 +41,7 @@ exports.up = (knex, Promise) => Promise.all([
 ]);
 
 exports.down = (knex, Promise) => Promise.all([
-  knex.schema.dropTable('donors'),
-  knex.schema.dropTable('product_scanned'),
+  knex.schema.dropTable('products_scanned'),
   knex.schema.dropTable('bundles'),
+  knex.schema.dropTable('donors'),
 ]);
