@@ -1,9 +1,9 @@
 const express = require('express');
-const donorController = require('../controllers/donor');
+const authController = require('../controllers/auth');
 
 const router = express.Router();
 
 // Map routes to controller
-router.get('/:id', donorController.findOne);
+router.post('/', authController.auth);
 
 module.exports = router;

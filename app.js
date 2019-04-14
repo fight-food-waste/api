@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const indexRouter = require('./routes/index');
 const donorRouter = require('./routes/donor');
 const bundleRouter = require('./routes/bundle');
+const authRouter = require('./routes/auth');
 
 // init express
 const app = express();
@@ -24,6 +25,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/', indexRouter);
 app.use('/donor', donorRouter);
 app.use('/bundle', bundleRouter);
+app.use('/auth', authRouter);
 
 // else: catch 404
 app.use((req, res) => {

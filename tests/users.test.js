@@ -26,24 +26,3 @@ describe('GET /donor/1', () => {
     assert.strictEqual(JSON.parse(response.text).first_name, 'John');
   });
 });
-
-describe('POST /donor/auth', () => {
-  it('the status code should be 200', async () => {
-    const response = await request(app)
-      .post('/donor/auth')
-      .send({
-        email: 'john.doe@gmail.com',
-        password: 'qwertyuiop',
-      });
-    assert.strictEqual(response.statusCode, 200);
-  });
-  it('the status code should be 400', async () => {
-    const response = await request(app)
-      .post('/donor/auth')
-      .send({
-        email: 'john.doe@gmail.com',
-        password: 'badpassword',
-      });
-    assert.strictEqual(response.statusCode, 400);
-  });
-});
