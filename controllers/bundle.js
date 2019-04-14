@@ -30,6 +30,19 @@ const bundleController = {
         res.sendStatus(500);
       });
   },
+  findFromDonor(req, res) {
+    const donorId = req.params.id;
+
+    knex.select().table('bundles').where('donor_id', donorId)
+      .then((rows) => {
+        res.json(rows);
+      })
+      .catch((error) => {
+        console.log(`Failed to query for bundles: ${error}`);
+
+        res.sendStatus(500);
+      });
+  },
 };
 
 module.exports = bundleController;
