@@ -5,5 +5,6 @@ const router = express.Router();
 
 // Map routes to controller
 router.post('/', bundleController.create);
+router.get('/:id', bundleController.findOne);
 
 module.exports = router;

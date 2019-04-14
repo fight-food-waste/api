@@ -16,6 +16,20 @@ const bundleController = {
         res.sendStatus(500);
       });
   },
+  findOne(req, res) {
+    const bundleId = req.params.id;
+
+    knex.select().table('bundles').where('id', bundleId)
+      .then((rows) => {
+        const bundle = rows[0];
+        res.json(bundle);
+      })
+      .catch((error) => {
+        console.log(`Failed to query for bundle: ${error}`);
+
+        res.sendStatus(500);
+      });
+  },
 };
 
 module.exports = bundleController;

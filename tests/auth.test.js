@@ -5,7 +5,7 @@ const assert = require('assert');
 const app = require('../app');
 
 describe('POST /auth', () => {
-  it('the status code should be 200', async () => {
+  it('the status code should be 200 with correct password', async () => {
     const response = await request(app)
       .post('/auth')
       .send({
@@ -14,7 +14,7 @@ describe('POST /auth', () => {
       });
     assert.strictEqual(response.statusCode, 200);
   });
-  it('the status code should be 400', async () => {
+  it('the status code should be 400 with bad password', async () => {
     const response = await request(app)
       .post('/auth')
       .send({
