@@ -12,8 +12,11 @@ const app = express();
 // load middlewares
 // logging
 const logFormat = process.env.NODE_ENV === 'production' ? 'combined' : 'dev';
-app.use(morgan(logFormat));
+if (process.env.NODE_ENV !== 'test') {
+  app.use(morgan(logFormat));
+}
 // parsing of POST requests
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // load routes

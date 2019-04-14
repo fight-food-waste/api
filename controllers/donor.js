@@ -32,7 +32,7 @@ const donorController = {
         });
       })
       .catch((error) => {
-        console.log(`Failed to verify password: ${error}`);
+        console.log(`${error}`);
 
         res.sendStatus(500);
       });
