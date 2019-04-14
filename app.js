@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 // import routes
 const indexRouter = require('./routes/index');
 const donorRouter = require('./routes/donor');
+const bundleRouter = require('./routes/bundle');
 
 // init express
 const app = express();
@@ -22,6 +23,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // load routes
 app.use('/', indexRouter);
 app.use('/donor', donorRouter);
+app.use('/bundle', bundleRouter);
 
 // else: catch 404
 app.use((req, res) => {
