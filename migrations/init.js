@@ -17,9 +17,12 @@ exports.up = (knex, Promise) => Promise.all([
   }),
   knex.schema.createTable('bundles', (table) => {
     table.increments();
-    // table.date('submitted_at');
+    table.integer('donor_id')
+      .unsigned()
+      .references('id')
+      .inTable('donors');
+    table.dateTime('submitted_at');
     // table.date('validated_at');
-    // table.date('created_at'); ??
     // table.integer('bundle_status_id');
     // table.integer('distribution_round_id');
     // table.integer('collection_round_id');
@@ -33,7 +36,7 @@ exports.up = (knex, Promise) => Promise.all([
       .unsigned()
       .references('id')
       .inTable('bundles');
-    table.date('expiration_data');
+    table.date('expiration_date');
   }),
 ]);
 
