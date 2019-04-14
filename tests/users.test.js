@@ -25,4 +25,9 @@ describe('GET /donor/1', () => {
       .get('/donor/1');
     assert.strictEqual(JSON.parse(response.text).first_name, 'John');
   });
+  it('the last name of the user should be Doe', async () => {
+    const response = await request(app)
+      .get('/donor/1');
+    assert.strictEqual(JSON.parse(response.text).last_name, 'Doe');
+  });
 });

@@ -21,3 +21,11 @@ describe('GET /', () => {
     assert.strictEqual(response.text, JSON.stringify({ message: 'Welcome to the FFW API!' }));
   });
 });
+
+describe('GET /doesnotexist', () => {
+  it('unhandled routes should return 404', async () => {
+    const response = await request(app)
+      .get('/doesnotexist');
+    assert.strictEqual(response.statusCode, 404);
+  });
+});
