@@ -38,10 +38,20 @@ exports.up = (knex, Promise) => Promise.all([
       .inTable('bundles');
     table.date('expiration_date');
   }),
+  knex.schema.createTable('user_tokens', (table) => {
+    table.string('token', 64)
+      .primary();
+    table.integer('user_id')
+      .unsigned()
+      .references('id')
+      .inTable('donors');
+    table.dateTime('date');
+  }),
 ]);
 
 exports.down = (knex, Promise) => Promise.all([
   knex.schema.dropTable('products_scanned'),
   knex.schema.dropTable('bundles'),
   knex.schema.dropTable('donors'),
+  knex.schema.dropTable('user_tokens'),
 ]);
