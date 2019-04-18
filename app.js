@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
+const helmet = require('helmet');
 
 // import routes
 const indexRouter = require('./routes/index');
@@ -21,6 +22,9 @@ if (process.env.NODE_ENV !== 'test') {
 // parsing of POST requests
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+// Set some HTTP headers for security
+app.use(helmet());
 
 // load routes
 app.use('/', indexRouter);

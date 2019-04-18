@@ -34,6 +34,8 @@ MySQL parameters are set using environment variables. `npm start` uses `dotenv` 
 
 A ready-to-use MySQL server can be launched via `docker-compose up -d` (see the `docker-compose.yml`).
 
+[Helmet](https://helmetjs.github.io/) is an Express middleware used to set some HTTP headers to improve security.
+
 Tests are run with `mocha` and `supertest`, via the files in `tests/`.
 
 When running `npm test`, a bash script will run the migrations (= init the database) with the knex CLI using `migrations/`. Sample data will be inserted with `seeds/`.
