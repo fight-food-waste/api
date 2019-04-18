@@ -26,6 +26,8 @@ Routes are added to the Express router by importing the files in `routes/`.
 
 Each route forwards to a controller stored in `controllers/`.
 
+Controllers validate input (GET/POST) with `joi`.
+
 Controllers can make database requests by importing `knex` and the parameters in `knexfile.js`.
 
 MySQL parameters are set using environment variables. `npm start` uses `dotenv` preloading so these variables can be put in `.env`. An example is available at `.env.example`.
