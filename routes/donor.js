@@ -4,6 +4,6 @@ const donorController = require('../controllers/donor');
 const router = express.Router();
 
 // Map routes to controller
-router.get('/:id', donorController.findOne);
+router.get('/donor/:id', donorController.findOne);
 
 module.exports = router;

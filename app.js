@@ -3,12 +3,7 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 
-// import routes
-const indexRouter = require('./routes/index');
-const donorRouter = require('./routes/donor');
-const bundleRouter = require('./routes/bundle');
-const authRouter = require('./routes/auth');
-const productRouter = require('./routes/product');
+const router = require('./routes/router');
 
 // init express
 const app = express();
@@ -27,11 +22,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(helmet());
 
 // load routes
-app.use('/', indexRouter);
-app.use('/donor', donorRouter);
-app.use('/bundle', bundleRouter);
-app.use('/auth', authRouter);
-app.use('/product', productRouter);
+app.use(router);
 
 // else: catch 404
 app.use((req, res) => {
