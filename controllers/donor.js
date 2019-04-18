@@ -16,21 +16,20 @@ const donorController = {
       if (err !== null) {
         res.sendStatus(400);
         console.log(`Failed to validate donor: ${err}`);
-        return;
+      } else {
+        knex.select()
+          .table('donors')
+          .where('id', value.donor_id)
+          .then((rows) => {
+            const donor = rows[0];
+            res.json(donor);
+          })
+          .catch((error) => {
+            console.log(`Failed to query for donor: ${error}`);
+
+            res.sendStatus(500);
+          });
       }
-
-      knex.select()
-        .table('donors')
-        .where('id', value.donor_id)
-        .then((rows) => {
-          const donor = rows[0];
-          res.json(donor);
-        })
-        .catch((error) => {
-          console.log(`Failed to query for donor: ${error}`);
-
-          res.sendStatus(500);
-        });
     });
   },
 };

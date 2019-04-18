@@ -26,25 +26,24 @@ const productController = {
       if (err !== null) {
         res.sendStatus(400);
         console.log(`Failed to validate bundle: ${err}`);
-        return;
+      } else {
+        knex('products_scanned')
+          .insert({
+            details: value.details,
+            quantity: value.quantity,
+            bundle_id: value.bundle_id,
+            expiration_date: value.expiration_date,
+          })
+          .then((id) => {
+            const productId = id[0];
+            res.send({ id: productId });
+          })
+          .catch((error) => {
+            console.log(`${error}`);
+
+            res.sendStatus(500);
+          });
       }
-
-      knex('products_scanned')
-        .insert({
-          details: value.details,
-          quantity: value.quantity,
-          bundle_id: value.bundle_id,
-          expiration_date: value.expiration_date,
-        })
-        .then((id) => {
-          const productId = id[0];
-          res.send({ id: productId });
-        })
-        .catch((error) => {
-          console.log(`${error}`);
-
-          res.sendStatus(500);
-        });
     });
   },
   findOne(req, res) {
@@ -61,21 +60,20 @@ const productController = {
       if (err !== null) {
         res.sendStatus(400);
         console.log(`Failed to validate donor: ${err}`);
-        return;
+      } else {
+        knex.select()
+          .table('products_scanned')
+          .where('id', value.product_id)
+          .then((rows) => {
+            const product = rows[0];
+            res.json(product);
+          })
+          .catch((error) => {
+            console.log(`Failed to query for product: ${error}`);
+
+            res.sendStatus(500);
+          });
       }
-
-      knex.select()
-        .table('products_scanned')
-        .where('id', value.product_id)
-        .then((rows) => {
-          const product = rows[0];
-          res.json(product);
-        })
-        .catch((error) => {
-          console.log(`Failed to query for product: ${error}`);
-
-          res.sendStatus(500);
-        });
     });
   },
   findFromBundle(req, res) {
@@ -92,20 +90,19 @@ const productController = {
       if (err !== null) {
         res.sendStatus(400);
         console.log(`Failed to validate bundle: ${err}`);
-        return;
+      } else {
+        knex.select()
+          .table('products_scanned')
+          .where('bundle_id', value.bundle_id)
+          .then((rows) => {
+            res.json(rows);
+          })
+          .catch((error) => {
+            console.log(`Failed to query for products: ${error}`);
+
+            res.sendStatus(500);
+          });
       }
-
-      knex.select()
-        .table('products_scanned')
-        .where('bundle_id', value.bundle_id)
-        .then((rows) => {
-          res.json(rows);
-        })
-        .catch((error) => {
-          console.log(`Failed to query for products: ${error}`);
-
-          res.sendStatus(500);
-        });
     });
   },
 };

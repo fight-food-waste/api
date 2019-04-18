@@ -5,11 +5,12 @@ const bundleController = {
   create(req, res) {
     knex('bundles')
       .insert({
-        donor_id: 1,
+        donor_id: 1, // TODO: get donor id from token
         submitted_at: new Date(),
       })
       .then((id) => {
-        res.send({ id: id[0] });
+        const bundleId = id[0];
+        res.send({ id: bundleId });
       })
       .catch((error) => {
         console.log(`${error}`);
@@ -29,23 +30,22 @@ const bundleController = {
 
     Joi.validate({ bundle_id: bundleId }, schema, (err, value) => {
       if (err !== null) {
-        res.sendStatus(400);
         console.log(`Failed to validate bundle: ${err}`);
-        return;
+        res.sendStatus(400);
+      } else {
+        knex.select()
+          .table('bundles')
+          .where('id', value.bundle_id)
+          .then((rows) => {
+            const bundle = rows[0];
+            res.json(bundle);
+          })
+          .catch((error) => {
+            console.log(`Failed to query for bundle: ${error}`);
+
+            res.sendStatus(500);
+          });
       }
-
-      knex.select()
-        .table('bundles')
-        .where('id', value.bundle_id)
-        .then((rows) => {
-          const bundle = rows[0];
-          res.json(bundle);
-        })
-        .catch((error) => {
-          console.log(`Failed to query for bundle: ${error}`);
-
-          res.sendStatus(500);
-        });
     });
   },
   findFromDonor(req, res) {
@@ -62,20 +62,19 @@ const bundleController = {
       if (err !== null) {
         res.sendStatus(400);
         console.log(`Failed to validate donorx: ${err}`);
-        return;
+      } else {
+        knex.select()
+          .table('bundles')
+          .where('donor_id', value.donor_id)
+          .then((rows) => {
+            res.json(rows);
+          })
+          .catch((error) => {
+            console.log(`Failed to query for bundles: ${error}`);
+
+            res.sendStatus(500);
+          });
       }
-
-      knex.select()
-        .table('bundles')
-        .where('donor_id', value.donor_id)
-        .then((rows) => {
-          res.json(rows);
-        })
-        .catch((error) => {
-          console.log(`Failed to query for bundles: ${error}`);
-
-          res.sendStatus(500);
-        });
     });
   },
 };
