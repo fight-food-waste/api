@@ -5,12 +5,12 @@ const bundleController = {
   create(req, res) {
     knex('bundles')
       .insert({
-        donor_id: 1, // TODO: get donor id from token
+        donor_id: req.donor_id,
         submitted_at: new Date(),
       })
       .then((id) => {
-        const bundleId = id[0];
-        res.send({ id: bundleId });
+        // Return the created bundle's id
+        res.send({ id: id[0] });
       })
       .catch((error) => {
         console.log(`${error}`);
@@ -19,8 +19,6 @@ const bundleController = {
       });
   },
   findOne(req, res) {
-    const bundleId = req.params.id;
-
     const schema = Joi.object()
       .keys({
         bundle_id: Joi.number()
@@ -28,7 +26,7 @@ const bundleController = {
           .required(),
       });
 
-    Joi.validate({ bundle_id: bundleId }, schema, (err, value) => {
+    Joi.validate({ bundle_id: req.params.id }, schema, (err, value) => {
       if (err !== null) {
         console.log(`Failed to validate bundle: ${err}`);
         res.sendStatus(400);
@@ -36,9 +34,15 @@ const bundleController = {
         knex.select()
           .table('bundles')
           .where('id', value.bundle_id)
+          .where('donor_id', req.donor_id)
           .then((rows) => {
-            const bundle = rows[0];
-            res.json(bundle);
+            if (rows.length === 0) {
+              // Bundle does not exist or is another donor's
+              res.sendStatus(404);
+            } else {
+              const bundle = rows[0];
+              res.json(bundle);
+            }
           })
           .catch((error) => {
             console.log(`Failed to query for bundle: ${error}`);
@@ -49,8 +53,6 @@ const bundleController = {
     });
   },
   findFromDonor(req, res) {
-    const donorId = req.params.id;
-
     const schema = Joi.object()
       .keys({
         donor_id: Joi.number()
@@ -58,15 +60,19 @@ const bundleController = {
           .required(),
       });
 
-    Joi.validate({ donor_id: donorId }, schema, (err, value) => {
+    Joi.validate({ donor_id: req.params.id }, schema, (err, value) => {
       if (err !== null) {
         res.sendStatus(400);
-        console.log(`Failed to validate donorx: ${err}`);
+        console.log(`Failed to validate donor: ${err}`);
+      } else if (value.donor_id !== req.donor_id) {
+        // Can't get another donor's bundles
+        res.sendStatus(403);
       } else {
         knex.select()
           .table('bundles')
           .where('donor_id', value.donor_id)
           .then((rows) => {
+            // Send bundle(s) as JSON
             res.json(rows);
           })
           .catch((error) => {

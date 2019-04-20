@@ -8,6 +8,7 @@ describe('POST /bundle', () => {
   it('the status code should be 200', async () => {
     const response = await request(app)
       .post('/bundle')
+      .set('token', '1e8c296780242a701e6d9aa314f51c580640df72b122af58aa5ac3996d80c96b')
       .send({});
     assert.strictEqual(response.statusCode, 200);
   });

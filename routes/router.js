@@ -1,5 +1,34 @@
 /* eslint-disable global-require */
-const router = require('express').Router();
+const router = require('express')
+  .Router();
+const token = require('../utils/token');
+
+// Middleware that verifies the token
+// and then passes it to req
+router.use((req, res, next) => {
+  if (req.originalUrl === '/auth' && req.originalUrl === '/') {
+    // We don't need a token for these routes
+    next();
+  } else if (!req.header('token')) {
+    // We need a token for any other route
+    res.sendStatus(403);
+  } else {
+    // If token exists, get user linked to this token
+    token.getUser(req.header('token'))
+      .then((donorId) => {
+        // Add donorId to global Express variable
+        // It will be usable by controllers
+        req.donor_id = donorId;
+        // Call next middleware
+        next();
+      })
+      .catch((error) => {
+        // Token not found or Knex error
+        console.log(`Failed to authenticate user. ${error}`);
+        res.sendStatus(403);
+      });
+  }
+});
 
 const controllers = [
   require('./auth'),
@@ -9,6 +38,7 @@ const controllers = [
   require('./product'),
 ];
 
+// Load each route file as a middleware
 controllers.forEach(controller => router.use('/', controller));
 
 module.exports = router;

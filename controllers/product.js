@@ -25,21 +25,38 @@ const productController = {
     }, schema, (err, value) => {
       if (err !== null) {
         res.sendStatus(400);
-        console.log(`Failed to validate bundle: ${err}`);
+        console.log(`Failed to validate product: ${err}`);
       } else {
-        knex('products_scanned')
-          .insert({
-            details: value.details,
-            quantity: value.quantity,
-            bundle_id: value.bundle_id,
-            expiration_date: value.expiration_date,
-          })
-          .then((id) => {
-            const productId = id[0];
-            res.send({ id: productId });
+        // Make sure the donor does not insert the product in any bundle
+        knex.select()
+          .table('bundles')
+          .where('id', value.bundle_id)
+          .where('donor_id', req.donor_id)
+          .then((rows) => {
+            if (rows.length === 0) {
+              // Bundle does not exist or is another donor's
+              res.sendStatus(400);
+            } else {
+              knex('products_scanned')
+                .insert({
+                  details: value.details,
+                  quantity: value.quantity,
+                  bundle_id: value.bundle_id,
+                  expiration_date: value.expiration_date,
+                })
+                .then((id) => {
+                  // Return the insert product's id
+                  res.send({ id: id[0] });
+                })
+                .catch((error) => {
+                  console.log(`${error}`);
+
+                  res.sendStatus(500);
+                });
+            }
           })
           .catch((error) => {
-            console.log(`${error}`);
+            console.log(`Failed to query for bundle: ${error}`);
 
             res.sendStatus(500);
           });
@@ -64,9 +81,31 @@ const productController = {
         knex.select()
           .table('products_scanned')
           .where('id', value.product_id)
-          .then((rows) => {
-            const product = rows[0];
-            res.json(product);
+          .then((products) => {
+            if (products.length === 0) {
+              // product does not exist
+              res.sendStatus(404);
+            } else {
+              const product = products[0];
+              knex.select()
+                .table('bundles')
+                .where('id', product.bundle_id)
+                .where('donor_id', req.donor_id)
+                .then((bundles) => {
+                  const bundle = bundles[0];
+                  if (bundle.donor_id !== req.donor_id) {
+                    // Product is part of a bundle that belongs to another donor
+                    res.sendStatus(403);
+                  } else {
+                    res.json(product);
+                  }
+                })
+                .catch((error) => {
+                  console.log(`Failed to query for bundle: ${error}`);
+
+                  res.sendStatus(500);
+                });
+            }
           })
           .catch((error) => {
             console.log(`Failed to query for product: ${error}`);
@@ -92,13 +131,29 @@ const productController = {
         console.log(`Failed to validate bundle: ${err}`);
       } else {
         knex.select()
-          .table('products_scanned')
-          .where('bundle_id', value.bundle_id)
-          .then((rows) => {
-            res.json(rows);
+          .table('bundles')
+          .where('id', value.bundle_id)
+          .where('donor_id', req.donor_id)
+          .then((bundles) => {
+            if (bundles.length === 0) {
+              // Bundle does not exist or is another donor's
+              res.sendStatus(404);
+            } else {
+              knex.select()
+                .table('products_scanned')
+                .where('bundle_id', value.bundle_id)
+                .then((products) => {
+                  res.json(products);
+                })
+                .catch((error) => {
+                  console.log(`Failed to query for products: ${error}`);
+
+                  res.sendStatus(500);
+                });
+            }
           })
           .catch((error) => {
-            console.log(`Failed to query for products: ${error}`);
+            console.log(`Failed to query for bundle: ${error}`);
 
             res.sendStatus(500);
           });
