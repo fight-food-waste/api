@@ -73,14 +73,14 @@ lint:11:
   <<: *npm_lint
 
 # Jobs for Node.js 12
-install:12:
-  image: node:12
-  <<: *npm_install
-
-test:12:
-  image: node:12
-  <<: *npm_test
-
-lint:12:
-  image: node:12
-  <<: *npm_lint
+#install:12:
+#  image: node:12
+#  <<: *npm_install
+#
+#test:12:
+#  image: node:12
+#  <<: *npm_test
+#
+#lint:12:
+#  image: node:12
+#  <<: *npm_lint
