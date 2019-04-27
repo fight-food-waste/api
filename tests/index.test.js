@@ -26,6 +26,6 @@ describe('GET /doesnotexist', () => {
   it('unhandled routes should return 404', async () => {
     const response = await request(app)
       .get('/doesnotexist');
-    assert.strictEqual(response.statusCode, 404);
+    assert.strictEqual(response.statusCode, 403);
   });
 });

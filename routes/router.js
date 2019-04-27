@@ -11,6 +11,7 @@ router.use((req, res, next) => {
     next();
   } else if (!req.header('token')) {
     // We need a token for any other route
+    // FYI this is also where we end up for undefined routes (should be 404)
     res.sendStatus(403);
   } else {
     // If token exists, get user linked to this token
