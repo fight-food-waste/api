@@ -1,8 +1,8 @@
 /* eslint-disable implicit-arrow-linebreak */
 /* eslint-disable no-unused-vars */
-exports.seed = (knex, Promise) => {
+exports.seed = (knex, Promise) =>
   // Deletes ALL existing entries
-  return knex('donors')
+  knex('donors')
     .del()
     .then(() =>
       // Inserts seed entries
@@ -28,4 +28,3 @@ exports.seed = (knex, Promise) => {
                 date: '2019-04-19 13:46:57',
               },
             ])));
-};
