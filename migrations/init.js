@@ -52,6 +52,6 @@ exports.up = (knex, Promise) => Promise.all([
 exports.down = (knex, Promise) => Promise.all([
   knex.schema.dropTable('products_scanned'),
   knex.schema.dropTable('bundles'),
-  knex.schema.dropTable('donors'),
   knex.schema.dropTable('user_tokens'),
+  knex.schema.dropTable('donors'),
 ]);
