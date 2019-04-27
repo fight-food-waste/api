@@ -6,7 +6,7 @@ const token = require('../utils/token');
 // Middleware that verifies the token
 // and then passes it to req
 router.use((req, res, next) => {
-  if (req.originalUrl === '/auth' && req.originalUrl === '/') {
+  if (req.originalUrl === '/auth' || req.originalUrl === '/') {
     // We don't need a token for these routes
     next();
   } else if (!req.header('token')) {
