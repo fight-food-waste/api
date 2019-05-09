@@ -23,4 +23,13 @@ describe('POST /auth', () => {
       });
     assert.strictEqual(response.statusCode, 403);
   });
+  it('the status code should be 400 with bad email', async () => {
+    const response = await request(app)
+      .post('/auth')
+      .send({
+        email: 'doesnotexist@gmail.com',
+        password: 'password',
+      });
+    assert.strictEqual(response.statusCode, 400);
+  });
 });
