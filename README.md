@@ -10,6 +10,7 @@ Stack: Express + MySQL via Knex (query builder).
 |--------|-----------------------|---------------------------------------------------|-----------------|
 | GET    | `/`                   |                                                   | Welcome message |
 | POST   | `auth`                | `{email, password}`                               |                 |
+| GET    | `/donor`              |                                                   | Donor           |
 | GET    | `/donor/:id`          | Donor ID                                          | Donor           |
 | POST   | `/bundle`             |                                                   | Bundle ID       |
 | GET    | `/bundle/:id`         | Bundle ID                                         | Bundle          |

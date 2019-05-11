@@ -33,6 +33,20 @@ const donorController = {
       }
     });
   },
+  findSelf(req, res) {
+    knex.select()
+      .table('donors')
+      .where('id', req.donor_id) // self id
+      .then((rows) => {
+        const donor = rows[0];
+        res.json(donor);
+      })
+      .catch((error) => {
+        console.log(`Failed to query for donor: ${error}`);
+
+        res.sendStatus(500);
+      });
+  },
 };
 
 module.exports = donorController;
