@@ -30,7 +30,9 @@ exports.up = (knex, Promise) => Promise.all([
   knex.schema.createTable('products_scanned', (table) => {
     table.increments('id')
       .primary();
-    table.json('details');
+    // table.json('details');
+    table.string('name');
+    table.bigInteger('barcode');
     table.integer('quantity');
     table.integer('bundle_id')
       .unsigned()

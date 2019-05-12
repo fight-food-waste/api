@@ -11,7 +11,8 @@ describe('POST /product', () => {
       .post('/product')
       .set('token', token)
       .send({
-        details: '{name: "meat"}',
+        name: 'Pocari Sweat Drink',
+        barcode: 8801097150010,
         quantity: 1,
         bundle_id: 1,
         expiration_date: '2019-07-23',
@@ -46,11 +47,17 @@ describe('GET /product/1', () => {
       .set('token', token);
     assert.strictEqual(JSON.parse(response.text).bundle_id, 1);
   });
-  it('the product name should be meat', async () => {
+  it('the product\'s name should be Pocari Sweat Drink', async () => {
     const response = await request(app)
       .get('/product/1')
       .set('token', token);
-    assert.strictEqual(JSON.parse(response.text).details, '{name: "meat"}');
+    assert.strictEqual(JSON.parse(response.text).name, 'Pocari Sweat Drink');
+  });
+  it('the product\'s bardcode should be 8801097150010', async () => {
+    const response = await request(app)
+      .get('/product/1')
+      .set('token', token);
+    assert.strictEqual(JSON.parse(response.text).barcode, 8801097150010);
   });
   it('the quantity should be 1', async () => {
     const response = await request(app)

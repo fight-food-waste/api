@@ -5,7 +5,10 @@ const productController = {
   create(req, res) {
     const schema = Joi.object()
       .keys({
-        details: Joi.string()
+        name: Joi.string()
+          .required(),
+        barcode: Joi.number()
+          .integer()
           .required(),
         quantity: Joi.number()
           .integer()
@@ -18,7 +21,8 @@ const productController = {
       });
 
     Joi.validate({
-      details: req.body.details,
+      name: req.body.name,
+      barcode: req.body.barcode,
       quantity: req.body.quantity,
       bundle_id: req.body.bundle_id,
       expiration_date: req.body.expiration_date,
@@ -39,7 +43,8 @@ const productController = {
             } else {
               knex('products_scanned')
                 .insert({
-                  details: value.details,
+                  name: value.name,
+                  barcode: value.barcode,
                   quantity: value.quantity,
                   bundle_id: value.bundle_id,
                   expiration_date: value.expiration_date,
