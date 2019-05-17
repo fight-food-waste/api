@@ -22,7 +22,14 @@ const donorController = {
           .table('donors')
           .where('id', value.donor_id)
           .then((rows) => {
-            const donor = rows[0];
+            const donor = {
+              id: rows[0].id,
+              first_name: rows[0].first_name,
+              last_name: rows[0].last_name,
+              email: rows[0].email,
+              company_name: rows[0].company_name,
+              phone_number: rows[0].phone_number,
+            };
             res.json(donor);
           })
           .catch((error) => {
@@ -38,7 +45,14 @@ const donorController = {
       .table('donors')
       .where('id', req.donor_id) // self id
       .then((rows) => {
-        const donor = rows[0];
+        const donor = {
+          id: rows[0].id,
+          first_name: rows[0].first_name,
+          last_name: rows[0].last_name,
+          email: rows[0].email,
+          company_name: rows[0].company_name,
+          phone_number: rows[0].phone_number,
+        };
         res.json(donor);
       })
       .catch((error) => {
