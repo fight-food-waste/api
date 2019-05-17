@@ -13,6 +13,7 @@ Stack: Express + MySQL via Knex (query builder).
 | GET    | `/donor`              |                                                   | Donor           |
 | GET    | `/donor/:id`          | Donor ID                                          | Donor           |
 | POST   | `/bundle`             |                                                   | Bundle ID       |
+| POST   | `/bundle/:id/close`   | Bundle ID                                         |                 |
 | GET    | `/bundle/:id`         | Bundle ID                                         | Bundle          |
 | GET    | `/bundle/donor/:id`   | Donor ID                                          | Bundle          |
 | POST   | `/product`            | `{name, barcode, quantity, bundle_id, expiration_date}` | Product ID      |
