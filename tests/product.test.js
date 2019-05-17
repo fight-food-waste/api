@@ -22,6 +22,22 @@ describe('POST /product', () => {
   });
 });
 
+describe('POST /product with closed bundle should fail', () => {
+  it('the status code should be 200', async () => {
+    const response = await request(app)
+      .post('/product')
+      .set('token', token)
+      .send({
+        name: 'Pocari Sweat Drink',
+        barcode: 8801097150010,
+        quantity: 1,
+        bundle_id: 2,
+        expiration_date: '2019-07-23',
+      });
+    assert.strictEqual(response.statusCode, 400);
+  });
+});
+
 describe('GET /product/1', () => {
   it('the status code should be 200', async () => {
     const response = await request(app)

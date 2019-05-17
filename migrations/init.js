@@ -26,6 +26,7 @@ exports.up = (knex, Promise) => Promise.all([
     // table.integer('bundle_status_id');
     // table.integer('distribution_round_id');
     // table.integer('collection_round_id');
+    table.string('status').defaultTo('open');
   }),
   knex.schema.createTable('products_scanned', (table) => {
     table.increments('id')

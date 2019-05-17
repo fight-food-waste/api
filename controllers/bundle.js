@@ -83,6 +83,22 @@ const bundleController = {
       }
     });
   },
+  close(req, res) {
+    knex('bundles')
+      .where('id', '=', 2)
+      .update({
+        status: 'closed',
+      })
+      .then(() => {
+        // Return the created bundle's id
+        res.sendStatus(200);
+      })
+      .catch((error) => {
+        console.log(`${error}`);
+
+        res.sendStatus(500);
+      });
+  },
 };
 
 module.exports = bundleController;

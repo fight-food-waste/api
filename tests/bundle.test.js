@@ -20,6 +20,13 @@ describe('POST /bundle', () => {
       .send({});
     assert.strictEqual(JSON.parse(response.text).id, 2);
   });
+  it('should close bundle 2', async () => {
+    const response = await request(app)
+      .post('/bundle/2/close')
+      .set('token', token)
+      .send({});
+    assert.strictEqual(response.statusCode, 200);
+  });
 });
 
 describe('GET /bundle/1', () => {
@@ -68,4 +75,32 @@ describe('GET /bundle/donor/1', () => {
       .set('token', token);
     assert.strictEqual(JSON.parse(response.text)[0].donor_id, 1);
   });
+
+  describe('GET /bundle/2', () => {
+    it('the status code should be 200', async () => {
+      const response = await request(app)
+        .get('/bundle/2')
+        .set('token', token);
+      assert.strictEqual(response.statusCode, 200);
+    });
+    it('the content type should be JSON', async () => {
+      const response = await request(app)
+        .get('/bundle/2')
+        .set('token', token);
+      assert.strictEqual(response.headers['content-type'], 'application/json; charset=utf-8');
+    });
+    it('the id of the bundle should be 2', async () => {
+      const response = await request(app)
+        .get('/bundle/2')
+        .set('token', token);
+      assert.strictEqual(JSON.parse(response.text).id, 2);
+    });
+    it('the bundle should be closed', async () => {
+      const response = await request(app)
+        .get('/bundle/2')
+        .set('token', token);
+      assert.strictEqual(JSON.parse(response.text).status, 'closed');
+    });
+  });
 });
+

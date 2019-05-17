@@ -40,6 +40,8 @@ const productController = {
             if (rows.length === 0) {
               // Bundle does not exist or is another donor's
               res.sendStatus(400);
+            } else if (rows[0].status === 'closed') {
+              res.status(400).json({ error: 'Bundle is closed.' });
             } else {
               knex('products_scanned')
                 .insert({
