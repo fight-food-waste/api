@@ -7,5 +7,6 @@ const router = express.Router();
 router.post('/product', productController.create);
 router.get('/product/:id', productController.findOne);
 router.get('/product/bundle/:id', productController.findFromBundle);
+router.get('/products/in-stock', productController.findFromStock);
 
 module.exports = router;

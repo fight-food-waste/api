@@ -41,7 +41,8 @@ const productController = {
               // Bundle does not exist or is another donor's
               res.sendStatus(400);
             } else if (rows[0].status === 'closed') {
-              res.status(400).json({ error: 'Bundle is closed.' });
+              res.status(400)
+                .json({ error: 'Bundle is closed.' });
             } else {
               knex('products_scanned')
                 .insert({
@@ -50,6 +51,7 @@ const productController = {
                   quantity: value.quantity,
                   bundle_id: value.bundle_id,
                   expiration_date: value.expiration_date,
+                  status: 0,
                 })
                 .then((id) => {
                   // Return the insert product's id
@@ -166,6 +168,25 @@ const productController = {
           });
       }
     });
+  },
+  findFromStock(req, res) {
+    knex.select()
+      .table('products_scanned')
+      .where('status', 2) // 2 = in stock
+      .then((products) => {
+        if (products.length === 0) {
+          // Bundle does not exist or is another donor's
+          res.sendStatus(404);
+        } else {
+          console.log(JSON.stringify(products));
+          res.json(products);
+        }
+      })
+      .catch((error) => {
+        console.log(`Failed to query for bundle: ${error}`);
+
+        res.sendStatus(500);
+      });
   },
 };
 
