@@ -175,7 +175,6 @@ const productController = {
       .where('status', 2) // 2 = in stock
       .then((products) => {
         if (products.length === 0) {
-          // Bundle does not exist or is another donor's
           res.sendStatus(404);
         } else {
           console.log(JSON.stringify(products));
@@ -183,7 +182,7 @@ const productController = {
         }
       })
       .catch((error) => {
-        console.log(`Failed to query for bundle: ${error}`);
+        console.log(`Failed to query for products: ${error}`);
 
         res.sendStatus(500);
       });
