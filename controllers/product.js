@@ -177,7 +177,6 @@ const productController = {
         if (products.length === 0) {
           res.sendStatus(404);
         } else {
-          console.log(JSON.stringify(products));
           res.json(products);
         }
       })
