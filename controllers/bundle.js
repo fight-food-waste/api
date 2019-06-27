@@ -90,7 +90,6 @@ const bundleController = {
         status: 'closed',
       })
       .then(() => {
-        // Return the created bundle's id
         res.sendStatus(200);
       })
       .catch((error) => {
