@@ -18,7 +18,7 @@ exports.up = (knex, Promise) => Promise.all([
       .references('id')
       .inTable('users');
     table.dateTime('submitted_at');
-    table.integer('status')
+    table.string('status')
       .defaultTo('open');
   }),
   knex.schema.createTable('products_scanned', (table) => {
