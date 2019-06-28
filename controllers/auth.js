@@ -24,14 +24,14 @@ const authController = {
         res.sendStatus(400);
       } else {
         knex.select('password', 'id')
-          .table('donors')
+          .table('users')
           .where('email', value.email)
           .then((rows) => {
             if (rows.length === 0) {
               res.sendStatus(400);
             } else {
-              const donor = rows[0];
-              const hashedPassword = donor.password;
+              const user = rows[0];
+              const hashedPassword = user.password;
               const receivedPassword = value.password;
 
               bcrypt.compare(receivedPassword, hashedPassword)
@@ -41,7 +41,7 @@ const authController = {
 
                     knex('user_tokens')
                       .insert({
-                        user_id: donor.id,
+                        user_id: user.id,
                         token: userToken,
                         date: new Date(),
                       })

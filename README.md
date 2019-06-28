@@ -10,12 +10,12 @@ Stack: Express + MySQL via Knex (query builder).
 |--------|-----------------------|---------------------------------------------------|-----------------|
 | GET    | `/`                   |                                                   | Welcome message |
 | POST   | `auth`                | `{email, password}`                               |                 |
-| GET    | `/donor`              |                                                   | Donor           |
-| GET    | `/donor/:id`          | Donor ID                                          | Donor           |
+| GET    | `/user`               |                                                   | User            |
+| GET    | `/user/:id`           | User ID                                           | User            |
 | POST   | `/bundle`             |                                                   | Bundle ID       |
 | POST   | `/bundle/:id/close`   | Bundle ID                                         |                 |
 | GET    | `/bundle/:id`         | Bundle ID                                         | Bundle          |
-| GET    | `/bundle/donor/:id`   | Donor ID                                          | Bundle          |
+| GET    | `/bundle/user/:id`    | User ID                                           | Bundle          |
 | POST   | `/product`            | `{name, barcode, quantity, bundle_id, expiration_date}` | Product ID      |
 | GET    | `/product/:id`        | Product ID                                        | Product         |
 | GET    | `/product/bundle/:id` | Bundle ID                                         | Product         |

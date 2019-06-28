@@ -31,14 +31,14 @@ const productController = {
         res.sendStatus(400);
         console.log(`Failed to validate product: ${err}`);
       } else {
-        // Make sure the donor does not insert the product in any bundle
+        // Make sure the user does not insert the product in any bundle
         knex.select()
           .table('bundles')
           .where('id', value.bundle_id)
-          .where('donor_id', req.donor_id)
+          .where('user_id', req.user_id)
           .then((rows) => {
             if (rows.length === 0) {
-              // Bundle does not exist or is another donor's
+              // Bundle does not exist or is another user's
               res.sendStatus(400);
             } else if (rows[0].status === 'closed') {
               res.status(400)
@@ -85,7 +85,7 @@ const productController = {
     Joi.validate({ product_id: productId }, schema, (err, value) => {
       if (err !== null) {
         res.sendStatus(400);
-        console.log(`Failed to validate donor: ${err}`);
+        console.log(`Failed to validate user: ${err}`);
       } else {
         knex.select()
           .table('products_scanned')
@@ -99,11 +99,11 @@ const productController = {
               knex.select()
                 .table('bundles')
                 .where('id', product.bundle_id)
-                .where('donor_id', req.donor_id)
+                .where('user_id', req.user_id)
                 .then((bundles) => {
                   const bundle = bundles[0];
-                  if (bundle.donor_id !== req.donor_id) {
-                    // Product is part of a bundle that belongs to another donor
+                  if (bundle.user_id !== req.user_id) {
+                    // Product is part of a bundle that belongs to another user
                     res.sendStatus(403);
                   } else {
                     res.json(product);
@@ -142,10 +142,10 @@ const productController = {
         knex.select()
           .table('bundles')
           .where('id', value.bundle_id)
-          .where('donor_id', req.donor_id)
+          .where('user_id', req.user_id)
           .then((bundles) => {
             if (bundles.length === 0) {
-              // Bundle does not exist or is another donor's
+              // Bundle does not exist or is another user's
               res.sendStatus(404);
             } else {
               knex.select()

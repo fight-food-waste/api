@@ -5,7 +5,7 @@ const bundleController = {
   create(req, res) {
     knex('bundles')
       .insert({
-        donor_id: req.donor_id,
+        user_id: req.user_id,
         submitted_at: new Date(),
       })
       .then((id) => {
@@ -34,10 +34,10 @@ const bundleController = {
         knex.select()
           .table('bundles')
           .where('id', value.bundle_id)
-          .where('donor_id', req.donor_id)
+          .where('user_id', req.user_id)
           .then((rows) => {
             if (rows.length === 0) {
-              // Bundle does not exist or is another donor's
+              // Bundle does not exist or is another user's
               res.sendStatus(404);
             } else {
               const bundle = rows[0];
@@ -52,25 +52,25 @@ const bundleController = {
       }
     });
   },
-  findFromDonor(req, res) {
+  findFromUser(req, res) {
     const schema = Joi.object()
       .keys({
-        donor_id: Joi.number()
+        user_id: Joi.number()
           .integer()
           .required(),
       });
 
-    Joi.validate({ donor_id: req.params.id }, schema, (err, value) => {
+    Joi.validate({ user_id: req.params.id }, schema, (err, value) => {
       if (err !== null) {
         res.sendStatus(400);
-        console.log(`Failed to validate donor: ${err}`);
-      } else if (value.donor_id !== req.donor_id) {
-        // Can't get another donor's bundles
+        console.log(`Failed to validate user: ${err}`);
+      } else if (value.user_id !== req.user_id) {
+        // Can't get another user's bundles
         res.sendStatus(403);
       } else {
         knex.select()
           .table('bundles')
-          .where('donor_id', value.donor_id)
+          .where('user_id', value.user_id)
           .then((rows) => {
             // Send bundle(s) as JSON
             res.json(rows);

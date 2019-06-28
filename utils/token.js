@@ -16,8 +16,8 @@ const token = {
           if (rows.length === 0) {
             reject(new Error('Token not found'));
           }
-          const donorId = rows[0].user_id;
-          resolve(donorId);
+          const userId = rows[0].user_id;
+          resolve(userId);
         })
         .catch((error) => {
           reject(error);

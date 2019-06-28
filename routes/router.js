@@ -16,10 +16,10 @@ router.use((req, res, next) => {
   } else {
     // If token exists, get user linked to this token
     token.getUser(req.header('token'))
-      .then((donorId) => {
-        // Add donorId to global Express variable
+      .then((userId) => {
+        // Add userId to global Express variable
         // It will be usable by controllers
-        req.donor_id = donorId;
+        req.user_id = userId;
         // Call next middleware
         next();
       })
@@ -34,7 +34,7 @@ router.use((req, res, next) => {
 const controllers = [
   require('./auth'),
   require('./bundle'),
-  require('./donor'),
+  require('./user'),
   require('./index'),
   require('./product'),
 ];

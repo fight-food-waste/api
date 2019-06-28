@@ -50,30 +50,30 @@ describe('GET /bundle/1', () => {
   });
 });
 
-describe('GET /bundle/donor/1', () => {
+describe('GET /bundle/user/1', () => {
   it('the status code should be 200', async () => {
     const response = await request(app)
-      .get('/bundle/donor/1')
+      .get('/bundle/user/1')
       .set('token', token);
     assert.strictEqual(response.statusCode, 200);
   });
   it('the content type should be JSON', async () => {
     const response = await request(app)
-      .get('/bundle/donor/1')
+      .get('/bundle/user/1')
       .set('token', token);
     assert.strictEqual(response.headers['content-type'], 'application/json; charset=utf-8');
   });
   it('there should be two bundle', async () => {
     const response = await request(app)
-      .get('/bundle/donor/1')
+      .get('/bundle/user/1')
       .set('token', token);
     assert.strictEqual(JSON.parse(response.text).length, 2);
   });
-  it('the donor_id should be 1', async () => {
+  it('the user_id should be 1', async () => {
     const response = await request(app)
-      .get('/bundle/donor/1')
+      .get('/bundle/user/1')
       .set('token', token);
-    assert.strictEqual(JSON.parse(response.text)[0].donor_id, 1);
+    assert.strictEqual(JSON.parse(response.text)[0].user_id, 1);
   });
 
   describe('GET /bundle/2', () => {
