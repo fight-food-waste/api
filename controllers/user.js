@@ -50,8 +50,6 @@ const userController = {
           first_name: rows[0].first_name,
           last_name: rows[0].last_name,
           email: rows[0].email,
-          company_name: rows[0].company_name,
-          phone_number: rows[0].phone_number,
         };
         res.json(user);
       })
