@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const axios = require('axios');
 const knex = require('knex')(require('../knexfile'));
 
 const productController = {
@@ -44,23 +45,31 @@ const productController = {
               res.status(400)
                 .json({ error: 'Bundle is closed.' });
             } else {
-              knex('products_scanned')
-                .insert({
-                  name: value.name,
-                  barcode: value.barcode,
-                  quantity: value.quantity,
-                  bundle_id: value.bundle_id,
-                  expiration_date: value.expiration_date,
-                  status: 0,
-                })
-                .then((id) => {
-                  // Return the insert product's id
-                  res.send({ id: id[0] });
+              axios.get(`https://world.openfoodfacts.org/api/v0/product/${value.barcode}.json`)
+                .then((response) => {
+                  knex('products_scanned')
+                    .insert({
+                      name: value.name,
+                      barcode: value.barcode,
+                      quantity: value.quantity,
+                      bundle_id: value.bundle_id,
+                      expiration_date: value.expiration_date,
+                      details: JSON.stringify(response.data),
+                      status: 0,
+                    })
+                    .then((id) => {
+                      // Return the insert product's id
+                      res.send({ id: id[0] });
+                    })
+                    .catch((error) => {
+                      console.log(`${error}`);
+
+                      res.sendStatus(500);
+                    });
                 })
                 .catch((error) => {
-                  console.log(`${error}`);
-
-                  res.sendStatus(500);
+                  // handle error
+                  console.log(error);
                 });
             }
           })
