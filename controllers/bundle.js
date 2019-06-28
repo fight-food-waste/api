@@ -6,6 +6,7 @@ const bundleController = {
     knex('bundles')
       .insert({
         user_id: req.user_id,
+        status: 'open',
         submitted_at: new Date(),
       })
       .then((id) => {
