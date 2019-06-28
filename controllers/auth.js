@@ -31,7 +31,7 @@ const authController = {
               res.sendStatus(400);
             } else {
               const user = rows[0];
-              const hashedPassword = user.password;
+              const hashedPassword = user.password.replace('$2y$', '$2a$');
               const receivedPassword = value.password;
 
               bcrypt.compare(receivedPassword, hashedPassword)

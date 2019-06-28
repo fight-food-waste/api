@@ -47,7 +47,7 @@ const productController = {
             } else {
               axios.get(`https://world.openfoodfacts.org/api/v0/product/${value.barcode}.json`)
                 .then((response) => {
-                  knex('products_scanned')
+                  knex('products')
                     .insert({
                       name: value.name,
                       barcode: value.barcode,
@@ -97,7 +97,7 @@ const productController = {
         console.log(`Failed to validate user: ${err}`);
       } else {
         knex.select()
-          .table('products_scanned')
+          .table('products')
           .where('id', value.product_id)
           .then((products) => {
             if (products.length === 0) {
@@ -158,7 +158,7 @@ const productController = {
               res.sendStatus(404);
             } else {
               knex.select()
-                .table('products_scanned')
+                .table('products')
                 .where('bundle_id', value.bundle_id)
                 .then((products) => {
                   res.json(products);
@@ -180,7 +180,7 @@ const productController = {
   },
   findFromStock(req, res) {
     knex.select()
-      .table('products_scanned')
+      .table('products')
       .where('status', 2) // 2 = in stock
       .then((products) => {
         if (products.length === 0) {
