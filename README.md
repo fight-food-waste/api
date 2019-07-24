@@ -1,3 +1,5 @@
+**THE API HAS BEEN MOVED TO LARAVEL. See [fight-food-waste/collects](https://github.com/fight-food-waste/collects/blob/master/routes/api.php).**
+
 # Fight Food Waste - API
 
 ![eslint-airbnb](https://badgen.net/badge/eslint/airbnb/red?icon=airbnb)
